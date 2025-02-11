@@ -4,8 +4,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
 class SourceTest {
     private source robot;
+    private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
 
     @BeforeEach
     void setUp() {
@@ -110,14 +115,35 @@ class SourceTest {
         robot.moveForward(15); // Try to move beyond the floor size
         assertEquals(4, robot.getY(), "Y position should be 4 (maximum bound) after moving out of bounds");
     }
-
+    
     @Test
     void testPrintFloor() {
+        System.setOut(new PrintStream(outputStream)); 
         robot.penDown(); // Pen is down to mark the floor
         robot.moveForward(2); // Move 2 steps North
         robot.turnRight(); // Face East
         robot.moveForward(1); // Move 1 step East
         robot.printFloor(); // Print the floor 
+
+        // Expected 5x5 floor output
+        String expectedOutput =
+                "     \n" +  // Row 1 (empty)
+                "     \n" +  // Row 2 (empty)
+                "* *  \n" +  // Row 3 (* at two places)
+                "*    \n" +  // Row 4 (* at one place)
+                "*    ";   // Row 5 (* at one place)
+
+        // Normalize both expected and actual outputs
+        String normalizedExpected = normalizeOutput(expectedOutput);
+        String normalizedActual = normalizeOutput(outputStream.toString());
+
+        // Use assertEquals to compare the normalized outputs
+        assertEquals(normalizedExpected, normalizedActual, "Floor pattern does not match expected output.");
+    }
+
+    // Helper method to normalize output by removing extra spaces and newlines
+    private String normalizeOutput(String output) {
+        return output.replaceAll("\\s+", " ").trim(); // Replace multiple spaces with a single space and trim
     }
 
     @Test
