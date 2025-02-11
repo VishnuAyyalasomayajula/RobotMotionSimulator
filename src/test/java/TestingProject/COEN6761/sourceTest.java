@@ -74,8 +74,6 @@ class SourceTest {
         robot.moveForward(2); // Move 2 steps North
         assertEquals(2, robot.getY(), "Y position should be 2 after moving 2 steps North");
         assertTrue(robot.isPenDown(), "Pen should still be down after moving");
-        robot.printStatus();
-        robot.printFloor();
     }
 
     @Test
@@ -84,8 +82,6 @@ class SourceTest {
         robot.penDown(); // Pen is down to mark the floor
         robot.moveForward(3); // Move 3 steps East
         assertEquals(3, robot.getX(), "X position should be 3 after moving 3 steps East");
-        robot.printStatus();
-        robot.printFloor();
     }
 
     @Test
@@ -96,8 +92,6 @@ class SourceTest {
         robot.penDown(); // Pen is down to mark the floor
         robot.moveForward(1); // Move 1 step South
         assertEquals(1, robot.getY(), "Y position should be 1 after moving 1 step South");
-        robot.printStatus();
-        robot.printFloor();
     }
 
     @Test
@@ -109,8 +103,6 @@ class SourceTest {
         robot.penDown(); // Pen is down to mark the floor
         robot.moveForward(2); // Move 2 steps West
         assertEquals(1, robot.getX(), "X position should be 1 after moving 2 steps West");
-        robot.printStatus();
-        robot.printFloor();
     }
 
     @Test
