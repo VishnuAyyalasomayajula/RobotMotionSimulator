@@ -147,6 +147,30 @@ class SourceTest {
     }
 
     @Test
+    void testMotionWhenPenUp() {
+        System.setOut(new PrintStream(outputStream)); 
+        robot.moveForward(2); // Move 2 steps North
+        robot.turnRight(); // Face East
+        robot.moveForward(1); // Move 1 step East
+        robot.printFloor(); // Print the floor 
+
+        // Expected 5x5 floor output
+        String expectedOutput =
+                "     \n" +  // Row 1 (empty)
+                "     \n" +  // Row 2 (empty)
+                "     \n" +  // Row 3 (* at two places)
+                "     \n" +  // Row 4 (* at one place)
+                "     ";   // Row 5 (* at one place)
+
+        // Normalize both expected and actual outputs
+        String normalizedExpected = normalizeOutput(expectedOutput);
+        String normalizedActual = normalizeOutput(outputStream.toString());
+
+        // Use assertEquals to compare the normalized outputs
+        assertEquals(normalizedExpected, normalizedActual, "Floor pattern does not match expected output.");
+    }
+    
+    @Test
     void testPrintStatus() {
         robot.penDown();
         robot.turnRight();
