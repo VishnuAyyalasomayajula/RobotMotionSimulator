@@ -95,8 +95,9 @@ public class source {
         }
     }
 
-    public void printStatus() {
-        System.out.println("Position: " + x + ", " + y + " - Pen: " + (penDown ? "down" : "up") + " - Facing: " + direction);
+    public String printStatus() {
+       System.out.println("Position: " + x + ", " + y + " - Pen: " + (penDown ? "down" : "up") + " - Facing: " + direction);
+       return "Position: " + x + ", " + y + " - Pen: " + (penDown ? "down" : "up") + " - Facing: " + direction;
     }
 
     // Redo functionality

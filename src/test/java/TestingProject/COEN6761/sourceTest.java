@@ -133,7 +133,9 @@ class SourceTest {
         robot.penDown();
         robot.turnRight();
         robot.moveForward(1);
-        robot.printStatus(); // Print status 
+        String ExpectedStatus = "Position: 1, 0 - Pen: down - Facing: E";
+        String ActualStatus = robot.printStatus();
+        assertEquals(ExpectedStatus, ActualStatus, "Incorrect status printed");
         
     }
     
