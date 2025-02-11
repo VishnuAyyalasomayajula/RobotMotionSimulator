@@ -134,6 +134,18 @@ class SourceTest {
         robot.turnRight();
         robot.moveForward(1);
         robot.printStatus(); // Print status 
+        
+    }
+    
+    @Test
+    void testHistory() {
+        robot.penDown();
+        robot.turnRight();
+        robot.moveForward(2);
+        robot.printStatus(); // Print status
+        String ExpectedHistory = "D R M 2 ";
+        String ActualHistory = robot.redoHistory();
+        assertEquals(ExpectedHistory,ActualHistory, "History Steps are not correct" );
     }
     
 }

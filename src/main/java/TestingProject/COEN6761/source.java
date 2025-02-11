@@ -100,8 +100,9 @@ public class source {
     }
 
     // Redo functionality
-    public void redoHistory() {
+    public String redoHistory() {
     	System.out.println(history);
+    	return history;
         /*String[] commands = history.trim().split(" ");
         for (int i = 0; i < commands.length; i++) {
             switch (commands[i]) {
