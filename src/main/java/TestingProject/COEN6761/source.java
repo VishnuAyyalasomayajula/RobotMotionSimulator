@@ -151,7 +151,7 @@ public class source {
         history += "I " + size + " "; // Add to history
     }
 
-    // Check if a string is a valid integer
+    /*// Check if a string is a valid integer
     public boolean isStringInt(String s) {
         try {
             Integer.parseInt(s);
@@ -159,9 +159,9 @@ public class source {
         } catch (NumberFormatException ex) {
             return false;
         }
-    }
+    }/*
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         source robot = new source(10); // Default size
         System.out.println("Robot Motion Simulator Started");
@@ -259,5 +259,5 @@ public class source {
         }
 
         scanner.close();
-    }
+    }*/
 }

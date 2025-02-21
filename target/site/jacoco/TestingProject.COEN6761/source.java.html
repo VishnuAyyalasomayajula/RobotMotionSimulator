@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>source.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">COEN6761</a> &gt; <a href="index.source.html" class="el_package">TestingProject.COEN6761</a> &gt; <span class="el_source">source.java</span></div><h1>source.java</h1><pre class="source lang-java linenums">package TestingProject.COEN6761;
+
+import java.util.Scanner;
+
+public class source {
+    private int[][] floor;
+    private int x, y;
+    private boolean penDown;
+    private String direction;
+<span class="fc" id="L10">    private String history = &quot;&quot;; // To store command history</span>
+
+<span class="fc" id="L12">    public source(int size) {</span>
+<span class="fc" id="L13">        floor = new int[size][size];</span>
+<span class="fc" id="L14">        x = 0;</span>
+<span class="fc" id="L15">        y = 0;</span>
+<span class="fc" id="L16">        penDown = false;</span>
+<span class="fc" id="L17">        direction = &quot;N&quot;;</span>
+<span class="fc" id="L18">    }</span>
+
+    public void penUp() {
+<span class="fc" id="L21">        penDown = false;</span>
+<span class="fc" id="L22">        history += &quot;U &quot;; // Add to history</span>
+<span class="fc" id="L23">    }</span>
+
+    public void penDown() {
+<span class="fc" id="L26">        penDown = true;</span>
+<span class="fc" id="L27">        history += &quot;D &quot;; // Add to history</span>
+<span class="fc" id="L28">    }</span>
+
+    public boolean isPenDown() {
+<span class="fc" id="L31">        return penDown;</span>
+    }
+
+    public void turnRight() {
+<span class="pc bpc" id="L35" title="1 of 5 branches missed.">        switch (direction) {</span>
+<span class="fc" id="L36">            case &quot;N&quot;: direction = &quot;E&quot;; break;</span>
+<span class="fc" id="L37">            case &quot;E&quot;: direction = &quot;S&quot;; break;</span>
+<span class="fc" id="L38">            case &quot;S&quot;: direction = &quot;W&quot;; break;</span>
+<span class="fc" id="L39">            case &quot;W&quot;: direction = &quot;N&quot;; break;</span>
+        }
+<span class="fc" id="L41">        history += &quot;R &quot;; // Add to history</span>
+<span class="fc" id="L42">    }</span>
+
+    public void turnLeft() {
+<span class="pc bpc" id="L45" title="1 of 5 branches missed.">        switch (direction) {</span>
+<span class="fc" id="L46">            case &quot;N&quot;: direction = &quot;W&quot;; break;</span>
+<span class="fc" id="L47">            case &quot;W&quot;: direction = &quot;S&quot;; break;</span>
+<span class="fc" id="L48">            case &quot;S&quot;: direction = &quot;E&quot;; break;</span>
+<span class="fc" id="L49">            case &quot;E&quot;: direction = &quot;N&quot;; break;</span>
+        }
+<span class="fc" id="L51">        history += &quot;L &quot;; // Add to history</span>
+<span class="fc" id="L52">    }</span>
+
+    public String getDirection() {
+<span class="fc" id="L55">        return direction;</span>
+    }
+
+    public void moveForward(int steps) {
+        // Mark the starting position if the pen is down
+<span class="fc bfc" id="L60" title="All 2 branches covered.">        if (penDown) {</span>
+<span class="fc" id="L61">            floor[x][y] = 1; // Mark the current position with '*'</span>
+        }
+
+<span class="fc bfc" id="L64" title="All 2 branches covered.">        for (int i = 0; i &lt; steps; i++) {</span>
+<span class="fc" id="L65">            int newX = x, newY = y;</span>
+<span class="pc bpc" id="L66" title="1 of 5 branches missed.">            switch (direction) {</span>
+<span class="fc" id="L67">                case &quot;N&quot;: newY = Math.min(y + 1, floor.length - 1); break;</span>
+<span class="fc" id="L68">                case &quot;E&quot;: newX = Math.min(x + 1, floor.length - 1); break;</span>
+<span class="fc" id="L69">                case &quot;S&quot;: newY = Math.max(y - 1, 0); break;</span>
+<span class="fc" id="L70">                case &quot;W&quot;: newX = Math.max(x - 1, 0); break;</span>
+            }
+<span class="fc" id="L72">            x = newX;</span>
+<span class="fc" id="L73">            y = newY;</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">            if (penDown) {</span>
+<span class="fc" id="L75">                floor[x][y] = 1; // Mark the new position with '*'</span>
+            }
+        }
+<span class="fc" id="L78">        history += &quot;M &quot; + steps + &quot; &quot;; // Add to history</span>
+<span class="fc" id="L79">    }</span>
+
+    public int getX() {
+<span class="fc" id="L82">        return x;</span>
+    }
+
+    public int getY() {
+<span class="fc" id="L86">        return y;</span>
+    }
+
+    public void printFloor() {
+<span class="fc bfc" id="L90" title="All 2 branches covered.">        for (int i = floor.length - 1; i &gt;= 0; i--) {</span>
+<span class="fc bfc" id="L91" title="All 2 branches covered.">            for (int j = 0; j &lt; floor.length; j++) {</span>
+<span class="fc bfc" id="L92" title="All 2 branches covered.">                System.out.print(floor[j][i] == 1 ? &quot;* &quot; : &quot;  &quot;);</span>
+            }
+<span class="fc" id="L94">            System.out.println();</span>
+        }
+<span class="fc" id="L96">    }</span>
+
+    public String printStatus() {
+<span class="fc bfc" id="L99" title="All 2 branches covered.">       System.out.println(&quot;Position: &quot; + x + &quot;, &quot; + y + &quot; - Pen: &quot; + (penDown ? &quot;down&quot; : &quot;up&quot;) + &quot; - Facing: &quot; + direction);</span>
+<span class="fc bfc" id="L100" title="All 2 branches covered.">       return &quot;Position: &quot; + x + &quot;, &quot; + y + &quot; - Pen: &quot; + (penDown ? &quot;down&quot; : &quot;up&quot;) + &quot; - Facing: &quot; + direction;</span>
+    }
+
+    // Redo functionality
+    public String redoHistory() {
+<span class="fc" id="L105">    	System.out.println(history);</span>
+<span class="fc" id="L106">    	return history;</span>
+        /*String[] commands = history.trim().split(&quot; &quot;);
+        for (int i = 0; i &lt; commands.length; i++) {
+            switch (commands[i]) {
+                case &quot;U&quot;:
+                    penUp();
+                    break;
+                case &quot;D&quot;:
+                    penDown();
+                    break;
+                case &quot;R&quot;:
+                    turnRight();
+                    break;
+                case &quot;L&quot;:
+                    turnLeft();
+                    break;
+                case &quot;M&quot;:
+                    if (i + 1 &lt; commands.length &amp;&amp; isStringInt(commands[i + 1])) {
+                        moveForward(Integer.parseInt(commands[i + 1]));
+                        i++; // Skip the steps value
+                    }
+                    break;
+                case &quot;I&quot;:
+                    if (i + 1 &lt; commands.length &amp;&amp; isStringInt(commands[i + 1])) {
+                        initializeArray(Integer.parseInt(commands[i + 1]));
+                        i++; // Skip the size value
+                    }
+                    break;
+                case &quot;P&quot;:
+                    printFloor();
+                    break;
+                case &quot;C&quot;:
+                    printStatus();
+                    break;
+            }
+        }*/
+    }
+
+    // Initialize array with new size
+    public void initializeArray(int size) {
+<span class="fc" id="L146">        floor = new int[size][size];</span>
+<span class="fc" id="L147">        x = 0;</span>
+<span class="fc" id="L148">        y = 0;</span>
+<span class="fc" id="L149">        penDown = false;</span>
+<span class="fc" id="L150">        direction = &quot;N&quot;;</span>
+<span class="fc" id="L151">        history += &quot;I &quot; + size + &quot; &quot;; // Add to history</span>
+<span class="fc" id="L152">    }</span>
+
+    /*// Check if a string is a valid integer
+    public boolean isStringInt(String s) {
+        try {
+            Integer.parseInt(s);
+            return true;
+        } catch (NumberFormatException ex) {
+            return false;
+        }
+    }/*
+
+    /*public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        source robot = new source(10); // Default size
+        System.out.println(&quot;Robot Motion Simulator Started&quot;);
+
+        while (true) {
+            System.out.print(&quot;Enter command: &quot;);
+            String command = scanner.nextLine().toLowerCase().trim();
+
+            try {
+                if (command.isEmpty()) {
+                    System.out.println(&quot;Error: Command cannot be empty.&quot;);
+                    continue;
+                }
+
+                if (command.startsWith(&quot;i&quot;)) {
+                    // Initialize floor with a new size
+                    String[] parts = command.split(&quot; &quot;);
+                    if (parts.length &lt; 2) {
+                        System.out.println(&quot;Error: Missing size for initialization. Usage: i &lt;size&gt;&quot;);
+                        continue;
+                    }
+                    int size = Integer.parseInt(parts[1]);
+                    if (size &lt;= 0) {
+                        System.out.println(&quot;Error: Size must be a positive integer.&quot;);
+                        continue;
+                    }
+                    robot.initializeArray(size);
+                    System.out.println(&quot;Floor initialized with size &quot; + size + &quot;x&quot; + size);
+
+                } else if (command.equals(&quot;u&quot;)) {
+                    // Pen up
+                    robot.penUp();
+                    System.out.println(&quot;Pen is up.&quot;);
+
+                } else if (command.equals(&quot;d&quot;)) {
+                    // Pen down
+                    robot.penDown();
+                    System.out.println(&quot;Pen is down.&quot;);
+
+                } else if (command.equals(&quot;r&quot;)) {
+                    // Turn right
+                    robot.turnRight();
+                    System.out.println(&quot;Turned right.&quot;);
+
+                } else if (command.equals(&quot;l&quot;)) {
+                    // Turn left
+                    robot.turnLeft();
+                    System.out.println(&quot;Turned left.&quot;);
+
+                } else if (command.startsWith(&quot;m&quot;)) {
+                    // Move forward
+                    String[] parts = command.split(&quot; &quot;);
+                    if (parts.length &lt; 2) {
+                        System.out.println(&quot;Error: Missing steps for move command. Usage: m &lt;steps&gt;&quot;);
+                        continue;
+                    }
+                    int steps = Integer.parseInt(parts[1]);
+                    if (steps &lt; 0) {
+                        System.out.println(&quot;Error: Steps must be a non-negative integer.&quot;);
+                        continue;
+                    }
+                    robot.moveForward(steps);
+                    System.out.println(&quot;Moved forward &quot; + steps + &quot; steps.&quot;);
+
+                } else if (command.equals(&quot;p&quot;)) {
+                    // Print floor
+                    System.out.println(&quot;Floor:&quot;);
+                    robot.printFloor();
+
+                } else if (command.equals(&quot;c&quot;)) {
+                    // Print status
+                    robot.printStatus();
+
+                } else if (command.equals(&quot;h&quot;)) {
+                    // Redo history
+                    robot.redoHistory();
+                    System.out.println(&quot;Redid command history.&quot;);
+
+                } else if (command.equals(&quot;q&quot;)) {
+                    // Quit
+                    System.out.println(&quot;Exiting program.&quot;);
+                    break;
+
+                } else {
+                    System.out.println(&quot;Error: Invalid command. Valid commands are: i, u, d, r, l, m, p, c, h, q.&quot;);
+                }
+
+            } catch (NumberFormatException e) {
+                System.out.println(&quot;Error: Invalid number format. Please enter a valid integer.&quot;);
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.out.println(&quot;Error: Invalid command format. Check your input.&quot;);
+            } catch (Exception e) {
+                System.out.println(&quot;An unexpected error occurred: &quot; + e.getMessage());
+            }
+        }
+
+        scanner.close();
+    }*/
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
